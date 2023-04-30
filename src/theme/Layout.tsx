@@ -6,7 +6,7 @@ interface LayoutProps {
 
 const Layout = ({children}: LayoutProps) => {
   return (
-    <div className="container">
+    <div>
       <Sidebar>{children}</Sidebar>
     </div>
   )

@@ -13,6 +13,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import {Icon} from '@mui/material'
 import {topSidebarList, bottomSidebarList} from './list'
+import ListItemLinkWrapper from '../Wrappers/ListItemLinkWrapper'
 
 const drawerWidth = 240
 
@@ -92,29 +93,35 @@ export default function Sidebar({children}: SidebarProps) {
         >
           <Box>
             {topSidebarList.map(item => (
-              <ListItem key={item.name} disablePadding sx={{display: 'block'}}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
+              <ListItemLinkWrapper path={item?.path}>
+                <ListItem
+                  key={item.name}
+                  disablePadding
+                  sx={{display: 'block'}}
                 >
-                  <ListItemIcon
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center',
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5,
                     }}
                   >
-                    <Icon>{item.icon}</Icon>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.name}
-                    sx={{opacity: open ? 1 : 0}}
-                  />
-                </ListItemButton>
-              </ListItem>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Icon>{item.icon}</Icon>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.name}
+                      sx={{opacity: open ? 1 : 0}}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </ListItemLinkWrapper>
             ))}
           </Box>
           <Box>
