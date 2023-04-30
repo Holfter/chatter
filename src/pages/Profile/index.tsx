@@ -1,7 +1,5 @@
-import Layout from '../../theme/Layout'
-
 const Profile = () => {
-  return <Layout>Profile</Layout>
+  return <>Profile</>
 }
 
 export default Profile

@@ -1,7 +1,5 @@
-import Layout from '../../theme/Layout'
-
 const Chat = () => {
-  return <Layout>Chat</Layout>
+  return <>Chat</>
 }
 
 export default Chat

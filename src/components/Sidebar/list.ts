@@ -7,7 +7,7 @@ export const topSidebarList = [
   {
     name: 'Chat',
     icon: 'sms_icon',
-    path: '/',
+    path: '/chat',
   },
 ]
 

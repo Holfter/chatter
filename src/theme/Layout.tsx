@@ -5,11 +5,7 @@ interface LayoutProps {
 }
 
 const Layout = ({children}: LayoutProps) => {
-  return (
-    <div>
-      <Sidebar>{children}</Sidebar>
-    </div>
-  )
+  return <Sidebar>{children}</Sidebar>
 }
 
 export default Layout

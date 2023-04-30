@@ -43,7 +43,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   paddingRight: '10px',
-  ...theme.mixins.toolbar,
+  //...theme.mixins.toolbar,
 }))
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: prop => prop !== 'open'})(
@@ -153,7 +153,7 @@ export default function Sidebar({children}: SidebarProps) {
           </Box>
         </List>
       </Drawer>
-      <Box component="main" sx={{flexGrow: 1, p: 3}}>
+      <Box component="main" sx={{flexGrow: 1}}>
         {children}
       </Box>
     </Box>
