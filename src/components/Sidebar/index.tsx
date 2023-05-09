@@ -5,8 +5,6 @@ import MuiDrawer from '@mui/material/Drawer'
 import List from '@mui/material/List'
 import CssBaseline from '@mui/material/CssBaseline'
 import IconButton from '@mui/material/IconButton'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
@@ -14,6 +12,7 @@ import ListItemText from '@mui/material/ListItemText'
 import {Icon} from '@mui/material'
 import {topSidebarList, bottomSidebarList} from './list'
 import ListItemLinkWrapper from '../Wrappers/ListItemLinkWrapper'
+import MenuIcon from '@mui/icons-material/Menu'
 
 const drawerWidth = 240
 
@@ -80,7 +79,7 @@ export default function Sidebar({children}: SidebarProps) {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={toggleDrawer}>
-            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            <MenuIcon />
           </IconButton>
         </DrawerHeader>
         <List
