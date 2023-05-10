@@ -6,11 +6,16 @@ import Login from './pages/Login/index.tsx'
 import Register from './pages/Register/index.tsx'
 import {ThemeProvider} from '@mui/material/styles'
 import {useColorMode} from './contexts/ColorModeContext'
+import PrivateRoute from './components/PrivateRoute/index.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <PrivateRoute>
+        <App />
+      </PrivateRoute>
+    ),
     errorElement: <div>Error 404</div>,
     children: [
       {
