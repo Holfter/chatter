@@ -7,7 +7,9 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({children}: PrivateRouteProps) => {
-  const {currentUser} = useAuth()
+  const {currentUser, loading} = useAuth()
+
+  if (loading) return <div>Loading....</div>
 
   return currentUser ? <>{children}</> : <Navigate to="/login" />
 }

@@ -1,30 +1,30 @@
-import React, {createContext, useEffect, useState, useContext} from 'react'
-import {auth} from '../../firebase-config'
-import {User, onAuthStateChanged} from 'firebase/auth'
+import React, {createContext, useContext} from 'react'
+import {User} from 'firebase/auth'
+import useAuthObserver from '../hooks/useAuthObserver'
 
 type UserType = User | null | undefined
 
 interface AuthContextValue {
   currentUser: UserType
+  loading: boolean
 }
 
-const AuthContext = createContext<AuthContextValue | null>({currentUser: null})
+const initialValues = {
+  currentUser: null,
+  loading: true,
+}
+
+const AuthContext = createContext<AuthContextValue | null>(initialValues)
 
 interface Props {
   children: React.ReactNode
 }
 
 export const AuthProvider = ({children}: Props) => {
-  const [currentUser, setCurrentUser] = useState<UserType>()
-
-  useEffect(() => {
-    onAuthStateChanged(auth, user => {
-      setCurrentUser(user)
-    })
-  }, [])
+  const {currentUser, loading} = useAuthObserver()
 
   return (
-    <AuthContext.Provider value={{currentUser}}>
+    <AuthContext.Provider value={{currentUser, loading}}>
       {children}
     </AuthContext.Provider>
   )

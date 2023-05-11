@@ -20,11 +20,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/profile',
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: '/chat',
-        element: <Chat />,
+        element: (
+          <PrivateRoute>
+            <Chat />
+          </PrivateRoute>
+        ),
       },
     ],
   },
