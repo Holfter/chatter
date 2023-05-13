@@ -8,9 +8,9 @@ const palette = {
     contrastText: '#fff',
   },
   secondary: {
-    main: '#dc004e',
+    main: '#141414',
     light: '#ff5c8d',
-    dark: '#9a0036',
+    dark: '#000000',
     contrastText: '#fff',
   },
   error: {
@@ -62,6 +62,11 @@ const muiTheme = (mode: 'light' | 'dark') =>
     palette: {
       ...palette,
       mode,
+    },
+    typography: {
+      button: {
+        textTransform: 'none',
+      },
     },
     components: {
       MuiCssBaseline: {
