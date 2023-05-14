@@ -22,8 +22,13 @@ const LoginForm = () => {
   return (
     <Box display="flex" flexDirection="column" gap={3}>
       <Stack direction="column" spacing={2}>
-        <TextField variant="outlined" label="User" type="text" />
-        <TextField variant="outlined" label="Password" type="password" />
+        <TextField fullWidth variant="outlined" label="User" type="text" />
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Password"
+          type="password"
+        />
         <Stack direction="row" justifyContent="flex-end">
           <Typography variant="caption">Forgot password?</Typography>
         </Stack>
