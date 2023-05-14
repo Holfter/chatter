@@ -23,6 +23,7 @@ const Login = () => {
       }}
     >
       <CssBaseline />
+
       <Grid container xs={12} justifyContent="center" sx={{padding: '12px'}}>
         <Grid item xs={7}>
           <Box mb={4}>
@@ -51,12 +52,15 @@ const Login = () => {
           <LoginForm />
         </Grid>
       </Grid>
-      <Box padding="12px" height="100%">
+      <Box height="100%">
         <Paper
+          elevation={0}
           sx={{
-            background: 'black',
+            backgroundImage: 'url(/assets/images/login-illustration.jpg)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
             height: '100%',
-            borderBottomLeftRadius: '5rem',
           }}
         ></Paper>
       </Box>
