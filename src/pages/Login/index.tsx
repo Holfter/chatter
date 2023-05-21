@@ -49,14 +49,14 @@ const Login = () => {
                 padding: '2px 8px',
               }}
             >
-              <Typography variant="h5">gCHAT</Typography>
+              <Typography variant="h5">Chatter</Typography>
             </Box>
           </Box>
         </Grid>
         <Grid item xs={12} md={7} sm={10}>
           <Box mb={4}>
             <Typography variant="h4" mb={2} sx={{display: 'flex'}}>
-              Welcome to gCHAT
+              Welcome to Chatter
             </Typography>
             <Typography variant="body2">
               Please enter log in details below
