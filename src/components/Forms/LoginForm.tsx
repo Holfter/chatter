@@ -1,9 +1,10 @@
 import {Box, Button, TextField, Divider, Typography, Stack} from '@mui/material'
 
 import {signInWithPopup} from 'firebase/auth'
-import {provider, auth} from '../../../firebase-config'
+import {provider, auth, db} from '../../../firebase-config'
 import Cookies from 'universal-cookie'
 import {useNavigate} from 'react-router-dom'
+import {doc, setDoc} from 'firebase/firestore'
 
 const cookies = new Cookies()
 
@@ -11,8 +12,19 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const signInWithGoogle = async () => {
     try {
-      const result = await signInWithPopup(auth, provider)
-      cookies.set('auth-token', result.user.refreshToken)
+      const res = await signInWithPopup(auth, provider)
+
+      const {displayName, email} = res.user
+
+      await setDoc(doc(db, 'users', res.user.uid), {
+        uid: res.user.uid,
+        displayName,
+        email,
+      })
+
+      //create empty user chats on firestore
+      await setDoc(doc(db, 'userChats', res.user.uid), {})
+      cookies.set('auth-token', res.user.refreshToken)
       navigate('/')
     } catch (error) {
       console.error(error)
