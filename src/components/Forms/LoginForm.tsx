@@ -14,12 +14,13 @@ const LoginForm = () => {
     try {
       const res = await signInWithPopup(auth, provider)
 
-      const {displayName, email} = res.user
+      const {displayName, email, photoURL} = res.user
 
       await setDoc(doc(db, 'users', res.user.uid), {
         uid: res.user.uid,
         displayName,
         email,
+        photoURL,
       })
 
       //create empty user chats on firestore
