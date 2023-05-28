@@ -1,11 +1,11 @@
-import Sidebar from '../components/Sidebar'
+import ResponsiveSidebar from '../components/ResponsiveSidebar'
 
 interface LayoutProps {
   children: React.ReactNode
 }
 
 const Layout = ({children}: LayoutProps) => {
-  return <Sidebar>{children}</Sidebar>
+  return <ResponsiveSidebar>{children}</ResponsiveSidebar>
 }
 
 export default Layout
