@@ -1,3 +1,6 @@
+import {signOut} from 'firebase/auth'
+import {auth} from '../../../firebase-config'
+
 export const topSidebarList = [
   {
     name: 'Profile',
@@ -15,5 +18,10 @@ export const bottomSidebarList = [
   {
     name: 'Settings',
     icon: 'settings_icon',
+  },
+  {
+    name: 'Logout',
+    icon: 'logout_icon',
+    callbackFunc: () => signOut(auth),
   },
 ]

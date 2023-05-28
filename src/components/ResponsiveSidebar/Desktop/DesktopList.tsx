@@ -55,6 +55,7 @@ const DesktopList = ({open}: DesktopListProps) => {
         {bottomSidebarList.map(item => (
           <ListItem key={item.name} disablePadding sx={{display: 'block'}}>
             <ListItemButton
+              onClick={() => item.callbackFunc && item.callbackFunc()}
               sx={{
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
