@@ -23,7 +23,8 @@ const LoginForm = () => {
         photoURL,
       })
 
-      //create empty user chats on firestore
+      // This is used to keep track of the user's chat list and also
+      // to show the last message below the friend's name
       await setDoc(doc(db, 'userChats', res.user.uid), {})
       cookies.set('auth-token', res.user.refreshToken)
       navigate('/')
