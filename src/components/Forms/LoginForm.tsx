@@ -19,6 +19,7 @@ const LoginForm = () => {
       await setDoc(doc(db, 'users', res.user.uid), {
         uid: res.user.uid,
         displayName,
+        lowerCaseDisplayName: displayName?.toLowerCase(),
         email,
         photoURL,
       })

@@ -1,8 +1,7 @@
 import React, {createContext, useContext} from 'react'
 import {User} from 'firebase/auth'
 import useAuthObserver from '../hooks/useAuthObserver'
-
-type UserType = User | null | undefined
+import {UserType} from '../types/IUser'
 
 interface AuthContextValue {
   currentUser: UserType

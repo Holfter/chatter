@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react'
 import {auth} from '../../firebase-config'
 import {User, onAuthStateChanged} from 'firebase/auth'
+import {IUser} from '../types/IUser'
 
-type UserType = User | null | undefined
+type UserType = IUser | null | undefined
 
 interface HookReturn {
   currentUser: UserType
@@ -10,12 +11,12 @@ interface HookReturn {
 }
 
 const useAuthObserver = (): HookReturn => {
-  const [currentUser, setCurrentUser] = useState<UserType | null>(null)
+  const [currentUser, setCurrentUser] = useState<IUser | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const unsbricribe = onAuthStateChanged(auth, user => {
-      setCurrentUser(user)
+      setCurrentUser(user as IUser)
       setLoading(false)
     })
 

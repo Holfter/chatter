@@ -1,9 +1,18 @@
 import {User} from 'firebase/auth'
 
-export interface IUser extends Partial<User> {
+export type UserType = IUser | null | undefined
+
+export interface IUser extends User {
   displayName: string
+  lowerCaseDisplayName: string
   email: string
   id: string
   photoURL: string
   uid: string
+}
+
+export interface UserChat {
+  date: string
+  lastMessage: {text: string}
+  userInfo: IUser
 }
