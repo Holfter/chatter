@@ -8,6 +8,7 @@ import {Message} from '../types/IChat'
 const useChatMessages = (currentFriend: IUser | null) => {
   const [chatMessages, setChatMessages] = useState<Message[]>([])
   const {currentUser} = useAuth()
+
   useEffect(() => {
     if (currentUser && currentFriend) {
       const combinedId =
@@ -15,13 +16,18 @@ const useChatMessages = (currentFriend: IUser | null) => {
           ? currentUser.uid + currentFriend.uid
           : currentFriend.uid + currentUser.uid
       const unSub = onSnapshot(doc(db, 'chats', combinedId), doc => {
-        doc.exists() && setChatMessages(doc.data().messages)
+        if (doc.exists()) {
+          setChatMessages(doc.data().messages)
+        } else {
+          setChatMessages([])
+        }
       })
       return () => {
         unSub()
       }
     }
   }, [currentFriend])
+
   return {chatMessages}
 }
 
