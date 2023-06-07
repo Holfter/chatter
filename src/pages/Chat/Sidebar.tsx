@@ -67,12 +67,12 @@ const Sidebar = ({onUserSelect}: SidebarProps) => {
             >
               <Avatar
                 onClick={() => onUserSelect(chat[1].userInfo)}
-                alt={chat[1].userInfo.displayName}
-                src={chat[1].userInfo.photoURL}
+                alt={chat[1].userInfo?.displayName}
+                src={chat[1].userInfo?.photoURL}
                 sx={{width: 50, height: 50, mr: 2}}
               />
               <ColumnFlexBox>
-                <span>{chat[1].userInfo.displayName}</span>
+                <span>{chat[1].userInfo?.displayName}</span>
                 <span>{chat[1].lastMessage?.text}</span>
               </ColumnFlexBox>
             </RowFlexBox>
