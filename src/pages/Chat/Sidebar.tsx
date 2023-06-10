@@ -7,10 +7,10 @@ import {IUser} from '../../types/IUser'
 import useQueryUsers from '../../hooks/useQueryUsers'
 import useUserChats from '../../hooks/useUserChats'
 
-const ChatSidebar = styled(Box)(() => ({
+const ChatSidebar = styled(Box)(({theme}) => ({
   width: 300,
   height: '100vh',
-  border: '1px solid black',
+  borderRight: `1px solid ${theme.palette.divider}`,
   display: 'flex',
   flexDirection: 'column',
 }))
