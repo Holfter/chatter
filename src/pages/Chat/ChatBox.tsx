@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {Box} from '@mui/material'
 import {styled} from '@mui/material/styles'
 import {IUser} from '../../types/IUser'
@@ -24,12 +24,20 @@ interface ChatBoxProps {
 const ChatBox = ({currentFriend}: ChatBoxProps) => {
   const [text, setText] = useState<string>('')
   const {chatMessages} = useChatMessages(currentFriend)
-
   const {currentUser} = useAuth()
 
+  const chatBoxRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Scroll to the bottom of the chat box
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight
+    }
+  }, [chatMessages])
+
   async function handleSendMessage() {
-    await sendMessage({currentUser, currentFriend, text})
     setText('')
+    await sendMessage({currentUser, currentFriend, text})
   }
   return (
     <Box width="100%">
@@ -41,7 +49,7 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
             alt="currentUserFriend"
           />
         )}
-        <Box flex="1" overflow="auto">
+        <Box flex="1" overflow="auto" ref={chatBoxRef}>
           {chatMessages?.map(message => (
             <RowFlexBox
               mb={2}
