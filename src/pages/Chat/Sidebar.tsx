@@ -9,7 +9,7 @@ import useUserChats from '../../hooks/useUserChats'
 
 const ChatSidebar = styled(Box)(({theme}) => ({
   width: 300,
-  height: '100vh',
+  height: '100%',
   borderRight: `1px solid ${theme.palette.divider}`,
   display: 'flex',
   flexDirection: 'column',

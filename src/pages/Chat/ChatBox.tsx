@@ -40,8 +40,8 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
     await sendMessage({currentUser, currentFriend, text})
   }
   return (
-    <Box width="100%">
-      <ColumnFlexBox height="100vh">
+    <Box width="100%" height="100%">
+      <ColumnFlexBox height="100%">
         {currentFriend?.photoURL && (
           <img
             width={50}
