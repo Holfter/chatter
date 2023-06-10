@@ -1,9 +1,10 @@
 import {styled, Theme, CSSObject} from '@mui/material/styles'
 import MuiDrawer from '@mui/material/Drawer'
-import IconButton from '@mui/material/IconButton'
+import Avatar from '@mui/material/Avatar'
+import Divider from '@mui/material/Divider'
 
-import MenuIcon from '@mui/icons-material/Menu'
 import DesktopList from './DesktopList'
+import {useAuth} from '../../../contexts/AuthContext'
 
 const drawerWidth = 240
 
@@ -59,17 +60,19 @@ interface DesktopSidebarProps {
 }
 
 const DesktopSidebar = ({toggleDrawer, open}: DesktopSidebarProps) => {
+  const {currentUser} = useAuth()
   return (
     <DesktopDrawer
+      onMouseEnter={toggleDrawer('desktop')}
+      onMouseLeave={toggleDrawer('desktop')}
       sx={{display: {sm: 'block', xs: 'none'}}}
       variant="permanent"
       open={open}
     >
       <DrawerHeader>
-        <IconButton onClick={toggleDrawer('desktop')}>
-          <MenuIcon />
-        </IconButton>
+        <Avatar alt={currentUser?.displayName} src={currentUser?.photoURL} />
       </DrawerHeader>
+      <Divider variant="middle" />
       <DesktopList open={open} />
     </DesktopDrawer>
   )
