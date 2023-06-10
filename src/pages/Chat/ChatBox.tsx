@@ -77,6 +77,12 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
         </Box>
         <RowFlexBox>
           <TextField
+            onKeyDown={ev => {
+              if (ev.key === 'Enter') {
+                ev.preventDefault()
+                handleSendMessage()
+              }
+            }}
             fullWidth
             rows={3}
             value={text}
