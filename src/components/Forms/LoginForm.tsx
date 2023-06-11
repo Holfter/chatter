@@ -4,7 +4,7 @@ import {signInWithPopup} from 'firebase/auth'
 import {provider, auth, db} from '../../../firebase-config'
 import Cookies from 'universal-cookie'
 import {useNavigate} from 'react-router-dom'
-import {doc, setDoc} from 'firebase/firestore'
+import {doc, getDoc, setDoc} from 'firebase/firestore'
 
 const cookies = new Cookies()
 
@@ -24,9 +24,14 @@ const LoginForm = () => {
         photoURL,
       })
 
-      // This is used to keep track of the user's chat list and also
-      // to show the last message below the friend's name
-      await setDoc(doc(db, 'userChats', res.user.uid), {})
+      // Check if the document exists before creating a new one
+      const userChatsRef = doc(db, 'userChats', res.user.uid)
+      const userChatsSnapshot = await getDoc(userChatsRef)
+      if (!userChatsSnapshot.exists()) {
+        // This is used to keep track of the user's chat list and also
+        // to show the last message below the friend's name
+        await setDoc(doc(db, 'userChats', res.user.uid), {})
+      }
       cookies.set('auth-token', res.user.refreshToken)
       navigate('/')
     } catch (error) {
