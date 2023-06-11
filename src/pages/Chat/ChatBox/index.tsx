@@ -1,12 +1,13 @@
 import {useEffect, useRef, useState} from 'react'
-import {Box} from '@mui/material'
+import {Box, IconButton, Typography} from '@mui/material'
 import {styled} from '@mui/material/styles'
-import {IUser} from '../../types/IUser'
-import {useAuth} from '../../contexts/AuthContext'
-import {sendMessage} from './helpers/handlers'
-import useChatMessages from '../../hooks/useChatMessages'
+import {IUser} from '../../../types/IUser'
+import {useAuth} from '../../../contexts/AuthContext'
+import {sendMessage} from '../helpers/handlers'
+import useChatMessages from '../../../hooks/useChatMessages'
 import TextField from '@mui/material/TextField'
 import Avatar from '@mui/material/Avatar'
+import ChatBoxHeader from './ChatBoxHeader'
 
 const ColumnFlexBox = styled(Box)(() => ({
   display: 'flex',
@@ -42,13 +43,7 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
   return (
     <Box width="100%" height="100%">
       <ColumnFlexBox height="100%">
-        {currentFriend?.photoURL && (
-          <img
-            width={50}
-            src={currentFriend?.photoURL}
-            alt="currentUserFriend"
-          />
-        )}
+        <ChatBoxHeader currentFriend={currentFriend} />
         <Box flex="1" overflow="auto" ref={chatBoxRef}>
           {chatMessages?.map(message => (
             <RowFlexBox

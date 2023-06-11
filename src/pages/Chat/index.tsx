@@ -10,7 +10,7 @@ const Chat = () => {
   return (
     <Box display="flex" height="100%" width="100%">
       <SidebarChat onUserSelect={user => setCurrentFriend(user)} />
-      <ChatBox currentFriend={currentFriend} />
+      {currentFriend && <ChatBox currentFriend={currentFriend} />}
     </Box>
   )
 }
