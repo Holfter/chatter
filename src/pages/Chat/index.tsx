@@ -8,7 +8,7 @@ import ChatBox from './ChatBox'
 const Chat = () => {
   const [currentFriend, setCurrentFriend] = useState<IUser | null>(null)
   return (
-    <Box display="flex" height="100%">
+    <Box display="flex" height="100%" width="100%">
       <SidebarChat onUserSelect={user => setCurrentFriend(user)} />
       <ChatBox currentFriend={currentFriend} />
     </Box>
