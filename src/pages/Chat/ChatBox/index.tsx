@@ -45,30 +45,56 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
       <ColumnFlexBox height="100%">
         <ChatBoxHeader currentFriend={currentFriend} />
         <Box flex="1" overflow="auto" ref={chatBoxRef}>
-          {chatMessages?.map(message => (
-            <RowFlexBox
-              mb={2}
-              flexDirection={
-                currentFriend?.uid === message.senderId ? 'row' : 'row-reverse'
-              }
-              alignItems="center"
-            >
-              <Avatar
-                alt={
-                  currentFriend?.uid === message.senderId
-                    ? currentFriend.displayName
-                    : currentUser?.displayName
-                }
-                src={
-                  currentFriend?.uid === message.senderId
-                    ? currentFriend.photoURL
-                    : currentUser?.photoURL
-                }
-                sx={{width: 50, height: 50, m: 2}}
-              />
-              <div>{message.text}</div>
-            </RowFlexBox>
-          ))}
+          {chatMessages?.map(message => {
+            const isCurrentUserTheSender =
+              currentFriend?.uid === message?.senderId
+
+            const displayName = isCurrentUserTheSender
+              ? currentFriend?.displayName
+              : currentUser?.displayName
+
+            const direction = isCurrentUserTheSender ? 'row' : 'row-reverse'
+
+            const photoURL = isCurrentUserTheSender
+              ? currentFriend?.photoURL
+              : currentUser?.photoURL
+
+            const borderRadius =
+              direction === 'row' ? '0px 19px 19px 19px' : '19px 0px 19px 19px'
+
+            return (
+              <RowFlexBox
+                key={message.id}
+                mb={2}
+                flexDirection={direction}
+                alignItems="center"
+              >
+                <Avatar
+                  alt={displayName}
+                  src={photoURL}
+                  sx={{width: 50, height: 50, m: 2}}
+                />
+                <Box>
+                  <Typography
+                    sx={{textAlign: direction === 'row' ? 'start' : 'end'}}
+                    mt={6}
+                    color="GrayText"
+                  >
+                    {displayName}
+                  </Typography>
+                  <Box
+                    sx={{
+                      background: '#f5f7fb',
+                      padding: '8px 16px',
+                      borderRadius: borderRadius,
+                    }}
+                  >
+                    <Typography>{message?.text}</Typography>
+                  </Box>
+                </Box>
+              </RowFlexBox>
+            )
+          })}
         </Box>
         <RowFlexBox>
           <TextField
