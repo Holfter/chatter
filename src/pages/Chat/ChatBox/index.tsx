@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
-import {Box, IconButton, Typography} from '@mui/material'
+import {Box, Icon, IconButton, Tooltip, Typography} from '@mui/material'
 import {styled} from '@mui/material/styles'
 import {IUser} from '../../../types/IUser'
 import {useAuth} from '../../../contexts/AuthContext'
@@ -83,8 +83,16 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
             value={text}
             onChange={e => setText(e.target.value)}
             label="Type a message"
+            InputProps={{
+              endAdornment: (
+                <Tooltip title="Send">
+                  <IconButton onClick={() => handleSendMessage()}>
+                    <Icon>send_icon</Icon>
+                  </IconButton>
+                </Tooltip>
+              ),
+            }}
           />
-          <button onClick={() => handleSendMessage()}>Send</button>
         </RowFlexBox>
       </ColumnFlexBox>
     </Box>
