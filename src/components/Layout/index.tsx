@@ -19,16 +19,18 @@ export default function Layout({children}: Layout) {
     <Box sx={{display: 'flex'}} height="100vh">
       <CssBaseline />
       <DesktopSidebar toggleDrawer={toggleDrawer} open={open.desktop} />
+      <MobileSidebar toggleDrawer={toggleDrawer} open={open.mobile} />
       {/* Page Content */}
       <Box
+        mt={{sm: 0, xs: '46px'}}
+        overflow="hidden"
         component="main"
         sx={{flexGrow: 1}}
-        height="100%"
+        height={{sm: '100%', xs: 'calc((100%) - 46px)'}}
         display="flex"
         flexDirection="column"
         alignItems="flex-start"
       >
-        <MobileSidebar toggleDrawer={toggleDrawer} open={open.mobile} />
         {children}
       </Box>
     </Box>

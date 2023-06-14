@@ -76,7 +76,7 @@ const muiTheme = (mode: 'light' | 'dark') =>
             divider: 'rgba(212,210,210,0.12)',
             background: {
               default: '#1c1c1c',
-              paper: '#262626',
+              paper: '#1c1c1c',
             },
           }),
     },

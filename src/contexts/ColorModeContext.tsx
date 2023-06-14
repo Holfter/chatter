@@ -23,7 +23,7 @@ interface ColorModeProviderProps {
 }
 
 export const ColorModeProvider = (props: ColorModeProviderProps) => {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('light')
+  const [mode, setMode] = React.useState<'light' | 'dark'>('dark')
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {

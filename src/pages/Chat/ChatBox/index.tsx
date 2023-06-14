@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
-import {Box, Icon, IconButton, Tooltip, Typography} from '@mui/material'
+import {Box, Icon, IconButton, Paper, Tooltip, Typography} from '@mui/material'
 import {styled} from '@mui/material/styles'
 import {IUser} from '../../../types/IUser'
 import {useAuth} from '../../../contexts/AuthContext'
@@ -83,8 +83,8 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
                     {displayName}
                   </Typography>
                   <Box
+                    component={Paper}
                     sx={{
-                      background: '#f5f7fb',
                       padding: '8px 16px',
                       borderRadius: borderRadius,
                     }}
