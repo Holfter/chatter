@@ -1,18 +1,29 @@
-import {useState} from 'react'
-import {Box} from '@mui/material'
-import {styled} from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
+import {Box, Theme} from '@mui/material'
 import Avatar from '@mui/material/Avatar'
-import {IUser} from '../../types/IUser'
+import TextField from '@mui/material/TextField'
+import {styled} from '@mui/material/styles'
+import {useState} from 'react'
+import {useChat} from '../../contexts/ChatContext'
 import useQueryUsers from '../../hooks/useQueryUsers'
 import useUserChats from '../../hooks/useUserChats'
+import {IUser} from '../../types/IUser'
 
-const ChatSidebar = styled(Box)(({theme}) => ({
+interface ChatSidebarProps {
+  theme?: Theme
+  isChatActive?: boolean
+}
+
+const ChatSidebar = styled(Box)<ChatSidebarProps>(({theme, isChatActive}) => ({
   width: 300,
   height: '100%',
   borderRight: `1px solid ${theme.palette.divider}`,
   display: 'flex',
+  [theme.breakpoints.down('md')]: {
+    display: isChatActive ? 'none' : 'flex',
+    width: '100%',
+  },
   flexDirection: 'column',
+  padding: '8px',
 }))
 const ColumnFlexBox = styled(Box)(() => ({
   display: 'flex',
@@ -29,6 +40,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({onUserSelect}: SidebarProps) => {
+  const {currentChatUser} = useChat()
   const [searchInput, setSearchInput] = useState<string>('')
   const {users} = useQueryUsers(searchInput)
   const {userChats} = useUserChats()
@@ -37,9 +49,9 @@ const Sidebar = ({onUserSelect}: SidebarProps) => {
     setSearchInput(event.target.value?.toLowerCase())
   }
   return (
-    <ChatSidebar>
+    <ChatSidebar isChatActive={Boolean(currentChatUser)}>
       <TextField
-        sx={{mb: 2}}
+        sx={{m: 0, mb: 2}}
         onChange={handleSearchUser}
         value={searchInput}
         type="text"

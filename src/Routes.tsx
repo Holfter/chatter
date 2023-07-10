@@ -1,12 +1,13 @@
-import App from './App.tsx'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
-import Chat from './pages/Chat'
-import Profile from './pages/Profile'
-import Login from './pages/Login/index.tsx'
-import Register from './pages/Register/index.tsx'
 import {ThemeProvider} from '@mui/material/styles'
-import {useColorMode} from './contexts/ColorModeContext'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import App from './App.tsx'
 import PrivateRoute from './components/PrivateRoute/index.tsx'
+import {ChatProvider} from './contexts/ChatContext.tsx'
+import {useColorMode} from './contexts/ColorModeContext'
+import Chat from './pages/Chat'
+import Login from './pages/Login/index.tsx'
+import Profile from './pages/Profile'
+import Register from './pages/Register/index.tsx'
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,9 @@ const router = createBrowserRouter([
         path: '/chat',
         element: (
           <PrivateRoute>
-            <Chat />
+            <ChatProvider>
+              <Chat />
+            </ChatProvider>
           </PrivateRoute>
         ),
       },

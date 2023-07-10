@@ -1,16 +1,15 @@
-import {useState} from 'react'
 import {Box} from '@mui/material'
-import {IUser} from '../../types/IUser'
 
-import SidebarChat from './Sidebar'
+import {useChat} from '../../contexts/ChatContext'
 import ChatBox from './ChatBox'
+import SidebarChat from './Sidebar'
 
 const Chat = () => {
-  const [currentFriend, setCurrentFriend] = useState<IUser | null>(null)
+  const {currentChatUser, setCurrentChatUser} = useChat()
   return (
     <Box display="flex" height="100%" width="100%">
-      <SidebarChat onUserSelect={user => setCurrentFriend(user)} />
-      {currentFriend && <ChatBox currentFriend={currentFriend} />}
+      <SidebarChat onUserSelect={user => setCurrentChatUser(user)} />
+      {currentChatUser && <ChatBox currentFriend={currentChatUser} />}
     </Box>
   )
 }

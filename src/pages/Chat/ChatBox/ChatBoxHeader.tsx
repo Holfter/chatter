@@ -1,4 +1,14 @@
-import {Avatar, Box, Icon, IconButton, Tooltip, Typography} from '@mui/material'
+import {
+  Avatar,
+  Box,
+  Icon,
+  IconButton,
+  Theme,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
+import {useChat} from '../../../contexts/ChatContext'
 import {IUser} from '../../../types/IUser'
 
 const headerIcons = [
@@ -13,6 +23,8 @@ interface ChatBoxHeaderProps {
 }
 
 const ChatBoxHeader = ({currentFriend}: ChatBoxHeaderProps) => {
+  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+  const {setCurrentChatUser} = useChat()
   return (
     <Box
       height={{sm: '50px', md: '72px'}}
@@ -23,6 +35,11 @@ const ChatBoxHeader = ({currentFriend}: ChatBoxHeaderProps) => {
       padding="0 21px"
     >
       <Box display="flex" alignItems="center" gap={1}>
+        {isMobile && (
+          <IconButton onClick={() => setCurrentChatUser(null)}>
+            <Icon>keyboard_arrow_left</Icon>
+          </IconButton>
+        )}
         <Avatar
           sx={{width: 40, height: 40}}
           src={currentFriend?.photoURL}
@@ -38,8 +55,8 @@ const ChatBoxHeader = ({currentFriend}: ChatBoxHeaderProps) => {
       <Box>
         {headerIcons.map(item => (
           <Tooltip title={item.title}>
-            <IconButton>
-              <Icon>{item.icon}</Icon>
+            <IconButton size="small">
+              <Icon fontSize="small">{item.icon}</Icon>
             </IconButton>
           </Tooltip>
         ))}
