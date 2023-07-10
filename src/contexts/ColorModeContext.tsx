@@ -1,5 +1,5 @@
-import React from 'react'
 import {createTheme, Theme} from '@mui/material/styles'
+import React from 'react'
 import muiTheme from '../theme/muiTheme'
 
 interface ColorModeType {
@@ -23,11 +23,16 @@ interface ColorModeProviderProps {
 }
 
 export const ColorModeProvider = (props: ColorModeProviderProps) => {
-  const [mode, setMode] = React.useState<'light' | 'dark'>('dark')
+  const storedMode = localStorage.getItem('colorMode')
+  const [mode, setMode] = React.useState<'light' | 'dark'>(
+    storedMode === 'dark' ? 'dark' : 'light',
+  )
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'))
+        const newMode = mode === 'light' ? 'dark' : 'light'
+        setMode(newMode)
+        localStorage.setItem('colorMode', newMode)
       },
     }),
     [],
