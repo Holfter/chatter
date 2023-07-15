@@ -89,7 +89,6 @@ const muiTheme = (mode: 'light' | 'dark') =>
       MuiTextField: {
         styleOverrides: {
           root: {
-            background: mode === 'light' ? '#f5f7fb' : '#262626',
             borderRadius: '16px',
             margin: '15px',
             '& fieldset': {
@@ -101,6 +100,8 @@ const muiTheme = (mode: 'light' | 'dark') =>
             },
             '& input': {
               borderRadius: '16px !important',
+              background:
+                mode === 'light' ? '#f5f7fb !important' : '#262626 !important',
             },
             '& label': {
               fontSize: '14px',

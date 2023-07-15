@@ -4,10 +4,9 @@ import App from './App.tsx'
 import PrivateRoute from './components/PrivateRoute/index.tsx'
 import {ChatProvider} from './contexts/ChatContext.tsx'
 import {useColorMode} from './contexts/ColorModeContext'
+import Auth from './pages/Auth/index.tsx'
 import Chat from './pages/Chat'
-import Login from './pages/Login/index.tsx'
 import Profile from './pages/Profile'
-import Register from './pages/Register/index.tsx'
 
 const router = createBrowserRouter([
   {
@@ -40,12 +39,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/register',
-    element: <Register />,
+    path: '/auth',
+    element: <Auth />,
   },
 ])
 

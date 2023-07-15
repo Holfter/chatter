@@ -1,7 +1,7 @@
+import {Box, CircularProgress} from '@mui/material'
 import React from 'react'
-import {useAuth} from '../../contexts/AuthContext'
 import {Navigate} from 'react-router-dom'
-import {Box, CircularProgress, Stack} from '@mui/material'
+import {useAuth} from '../../contexts/AuthContext'
 
 interface PrivateRouteProps {
   children: React.ReactNode
@@ -22,7 +22,7 @@ const PrivateRoute = ({children}: PrivateRouteProps) => {
       </Box>
     )
 
-  return currentUser ? <>{children}</> : <Navigate to="/login" />
+  return currentUser ? <>{children}</> : <Navigate to="/auth" />
 }
 
 export default PrivateRoute
