@@ -2,13 +2,13 @@ import {Box} from '@mui/material'
 
 import {useChat} from '../../contexts/ChatContext'
 import ChatBox from './ChatBox'
-import SidebarChat from './Sidebar'
+import SidebarChat from './SidebarChat/Sidebar'
 
 const Chat = () => {
-  const {currentChatUser, setCurrentChatUser} = useChat()
+  const {currentChatUser} = useChat()
   return (
     <Box display="flex" height="100%" width="100%">
-      <SidebarChat onUserSelect={user => setCurrentChatUser(user)} />
+      <SidebarChat />
       {currentChatUser && <ChatBox currentFriend={currentChatUser} />}
     </Box>
   )
