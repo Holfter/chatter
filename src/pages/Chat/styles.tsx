@@ -5,11 +5,15 @@ interface ChatSidebarProps {
   isChatActive?: boolean
 }
 
-export const ChatRow = styled(Box)(() => ({
+export const ChatRow = styled(Box)(({theme}) => ({
   width: '100%',
   display: 'flex',
   padding: '8px',
   cursor: 'pointer',
+  borderRadius: '15px',
+  '&:hover': {
+    background: theme.palette.hover_color.main,
+  },
 }))
 
 export const ColumnFlexBox = styled(Box)(() => ({
