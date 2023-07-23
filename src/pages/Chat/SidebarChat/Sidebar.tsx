@@ -1,6 +1,6 @@
 import {useChat} from '../../../contexts/ChatContext'
 import {ChatSidebar, ColumnFlexBox} from '../styles'
-import ChatList from './ChatListItem'
+import ChatList from './ChatList'
 import SearchUserInput from './SearchResult'
 
 const Sidebar = () => {
