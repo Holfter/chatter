@@ -2,6 +2,7 @@ import {Avatar, Box, Typography} from '@mui/material'
 import ChatRowSkeleton from '../../../components/Skeletons/Chat/ChatRowSkeleton'
 import {useChat} from '../../../contexts/ChatContext'
 import useUserChats from '../../../hooks/useUserChats'
+import {EllipsisTypography} from '../../../styled_components/Typographys'
 import {ChatRow, ColumnFlexBox} from '../styles'
 
 const ChatList = () => {
@@ -35,16 +36,9 @@ const ChatList = () => {
                 <Typography variant="body1">
                   {chat[1].userInfo?.displayName}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
+                <EllipsisTypography variant="body2">
                   {chat[1].lastMessage?.text}
-                </Typography>
+                </EllipsisTypography>
               </ColumnFlexBox>
             </ChatRow>
           ))}

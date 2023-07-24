@@ -54,7 +54,7 @@ const ChatMessages = () => {
               src={photoURL}
               sx={{width: 50, height: 50, m: 2}}
             />
-            <Box>
+            <Box maxWidth="65%">
               <Typography
                 sx={{textAlign: direction === 'row' ? 'start' : 'end'}}
                 mt={6}
