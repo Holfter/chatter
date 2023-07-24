@@ -16,8 +16,8 @@ const ChatList = () => {
         <>
           {Object.entries(userChats)?.map(chat => (
             <ChatRow
+              width={200}
               mb={2}
-              className="userChat"
               key={chat[0]}
               onClick={() => setCurrentChatUser(chat[1].userInfo)}
             >
@@ -26,11 +26,23 @@ const ChatList = () => {
                 src={chat[1].userInfo?.photoURL}
                 sx={{width: 50, height: 50, mr: 2}}
               />
-              <ColumnFlexBox>
+              <ColumnFlexBox
+                width="100%"
+                sx={{
+                  overflow: 'hidden',
+                }}
+              >
                 <Typography variant="body1">
                   {chat[1].userInfo?.displayName}
                 </Typography>
-                <Typography variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
                   {chat[1].lastMessage?.text}
                 </Typography>
               </ColumnFlexBox>
