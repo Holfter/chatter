@@ -2,7 +2,7 @@ import {Avatar, Box, Skeleton, Typography} from '@mui/material'
 
 const ChatMessagesSkeleton = () => {
   return (
-    <Box>
+    <Box height="100%">
       {Array(6)
         .fill(null)
         .map((_, index) => (
