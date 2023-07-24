@@ -1,8 +1,16 @@
-import {Box, Icon, IconButton, Paper, Tooltip, Typography} from '@mui/material'
-import Avatar from '@mui/material/Avatar'
+import {
+  Avatar,
+  Box,
+  Icon,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import TextField from '@mui/material/TextField'
 import {styled} from '@mui/material/styles'
 import {useEffect, useRef, useState} from 'react'
+import ChatMessagesSkeleton from '../../../components/Skeletons/Chat/ChatMessagesSkeleton'
 import {useAuth} from '../../../contexts/AuthContext'
 import useChatMessages from '../../../hooks/useChatMessages'
 import {IUser} from '../../../types/IUser'
@@ -24,7 +32,8 @@ interface ChatBoxProps {
 
 const ChatBox = ({currentFriend}: ChatBoxProps) => {
   const [text, setText] = useState<string>('')
-  const {chatMessages} = useChatMessages(currentFriend)
+  const {chatMessages, loading: isLoadingMessages} =
+    useChatMessages(currentFriend)
   const {currentUser} = useAuth()
 
   const chatBoxRef = useRef<HTMLDivElement>(null)
@@ -45,56 +54,64 @@ const ChatBox = ({currentFriend}: ChatBoxProps) => {
       <ColumnFlexBox height="100%">
         <ChatBoxHeader currentFriend={currentFriend} />
         <Box flex="1" overflow="auto" ref={chatBoxRef}>
-          {chatMessages?.map(message => {
-            const isCurrentUserTheSender =
-              currentFriend?.uid === message?.senderId
+          {isLoadingMessages ? (
+            <ChatMessagesSkeleton />
+          ) : (
+            <>
+              {chatMessages?.map(message => {
+                const isCurrentUserTheSender =
+                  currentFriend?.uid === message?.senderId
 
-            const displayName = isCurrentUserTheSender
-              ? currentFriend?.displayName
-              : currentUser?.displayName
+                const displayName = isCurrentUserTheSender
+                  ? currentFriend?.displayName
+                  : currentUser?.displayName
 
-            const direction = isCurrentUserTheSender ? 'row' : 'row-reverse'
+                const direction = isCurrentUserTheSender ? 'row' : 'row-reverse'
 
-            const photoURL = isCurrentUserTheSender
-              ? currentFriend?.photoURL
-              : currentUser?.photoURL
+                const photoURL = isCurrentUserTheSender
+                  ? currentFriend?.photoURL
+                  : currentUser?.photoURL
 
-            const borderRadius =
-              direction === 'row' ? '0px 19px 19px 19px' : '19px 0px 19px 19px'
+                const borderRadius =
+                  direction === 'row'
+                    ? '0px 19px 19px 19px'
+                    : '19px 0px 19px 19px'
 
-            return (
-              <RowFlexBox
-                key={message.id}
-                mb={2}
-                flexDirection={direction}
-                alignItems="center"
-              >
-                <Avatar
-                  alt={displayName}
-                  src={photoURL}
-                  sx={{width: 50, height: 50, m: 2}}
-                />
-                <Box>
-                  <Typography
-                    sx={{textAlign: direction === 'row' ? 'start' : 'end'}}
-                    mt={6}
-                    color="GrayText"
+                return (
+                  <RowFlexBox
+                    key={message.id}
+                    mb={2}
+                    flexDirection={direction}
+                    alignItems="center"
                   >
-                    {displayName}
-                  </Typography>
-                  <Box
-                    component={Paper}
-                    sx={{
-                      padding: '8px 16px',
-                      borderRadius: borderRadius,
-                    }}
-                  >
-                    <Typography>{message?.text}</Typography>
-                  </Box>
-                </Box>
-              </RowFlexBox>
-            )
-          })}
+                    <Avatar
+                      alt={displayName}
+                      src={photoURL}
+                      sx={{width: 50, height: 50, m: 2}}
+                    />
+                    <Box>
+                      <Typography
+                        sx={{textAlign: direction === 'row' ? 'start' : 'end'}}
+                        mt={6}
+                        color="GrayText"
+                      >
+                        {displayName}
+                      </Typography>
+                      <Box
+                        component={Paper}
+                        sx={{
+                          padding: '8px 16px',
+                          borderRadius: borderRadius,
+                        }}
+                      >
+                        <Typography>{message?.text}</Typography>
+                      </Box>
+                    </Box>
+                  </RowFlexBox>
+                )
+              })}
+            </>
+          )}
         </Box>
         <RowFlexBox>
           <TextField
