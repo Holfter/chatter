@@ -44,6 +44,9 @@ const muiTheme = (mode: 'light' | 'dark') =>
             hover_color: {
               main: '#f5f7fb',
             },
+            text_color: {
+              soft: '#8696A0',
+            },
           }
         : {
             // palette values for dark mode
@@ -83,6 +86,9 @@ const muiTheme = (mode: 'light' | 'dark') =>
             },
             hover_color: {
               main: '#262626',
+            },
+            text_color: {
+              soft: '#8696A0',
             },
           }),
     },

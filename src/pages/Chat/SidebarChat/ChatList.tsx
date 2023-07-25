@@ -36,7 +36,7 @@ const ChatList = () => {
                 <Typography variant="body1">
                   {chat[1].userInfo?.displayName}
                 </Typography>
-                <EllipsisTypography variant="body2">
+                <EllipsisTypography variant="body2" color="text_color.soft">
                   {chat[1].lastMessage?.text}
                 </EllipsisTypography>
               </ColumnFlexBox>
