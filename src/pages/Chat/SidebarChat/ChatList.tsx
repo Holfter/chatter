@@ -2,8 +2,9 @@ import {Avatar, Box, Typography} from '@mui/material'
 import ChatRowSkeleton from '../../../components/Skeletons/Chat/ChatRowSkeleton'
 import {useChat} from '../../../contexts/ChatContext'
 import useUserChats from '../../../hooks/useUserChats'
+import {ColumnFlexBox} from '../../../styled_components/FlexBoxComponents'
 import {EllipsisTypography} from '../../../styled_components/Typographys'
-import {ChatRow, ColumnFlexBox} from '../styles'
+import {ChatRow} from '../styles'
 
 const ChatList = () => {
   const {userChats, loading: isLoadingChatList} = useUserChats()

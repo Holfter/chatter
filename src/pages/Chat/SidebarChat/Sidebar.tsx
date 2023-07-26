@@ -1,5 +1,6 @@
 import {useChat} from '../../../contexts/ChatContext'
-import {ChatSidebar, ColumnFlexBox} from '../styles'
+import {ColumnFlexBox} from '../../../styled_components/FlexBoxComponents'
+import {ChatSidebar} from '../styles'
 import ChatList from './ChatList'
 import SearchUserInput from './SearchResult'
 

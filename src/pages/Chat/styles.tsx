@@ -16,11 +16,6 @@ export const ChatRow = styled(Box)(({theme}) => ({
   },
 }))
 
-export const ColumnFlexBox = styled(Box)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}))
-
 // isChatActive is used to hide the component on mobile if there's an active chat
 export const ChatSidebar = styled(Box)<ChatSidebarProps>(
   ({theme, isChatActive}) => ({
