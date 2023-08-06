@@ -102,18 +102,14 @@ const muiTheme = (mode: 'light' | 'dark') =>
         styleOverrides: {
           root: {
             borderRadius: '16px',
-            margin: '15px',
+            background:
+              mode === 'light' ? '#f5f7fb !important' : '#262626 !important',
             '& fieldset': {
               borderRadius: '15px',
               border: 'none',
               '&:focus': {
                 outline: 'none !important',
               },
-            },
-            '& input': {
-              borderRadius: '16px !important',
-              background:
-                mode === 'light' ? '#f5f7fb !important' : '#262626 !important',
             },
             '& label': {
               fontSize: '14px',
