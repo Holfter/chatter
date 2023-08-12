@@ -27,9 +27,6 @@ export const ChatSidebar = styled(Box)<ChatSidebarProps>(
       display: isChatActive ? 'none' : 'flex',
       width: '100%',
     },
-    [theme.breakpoints.down('lg')]: {
-      width: 300,
-    },
     flexDirection: 'column',
     padding: '8px',
   }),
