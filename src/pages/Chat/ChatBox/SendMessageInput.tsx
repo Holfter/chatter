@@ -1,4 +1,4 @@
-import {Icon, IconButton, Popper, TextField, Tooltip} from '@mui/material'
+import {Box, Icon, IconButton, Popper, TextField, Tooltip} from '@mui/material'
 import {EmojiClickData} from 'emoji-picker-react'
 import {useRef, useState} from 'react'
 import EmojiSelect from '../../../components/EmojiPicker'
@@ -82,19 +82,23 @@ const SendMessageInput = () => {
             </RowFlexBox>
           ),
           startAdornment: (
-            <div>
+            <Box>
               <IconButton onClick={e => handleEmojiButtonClick(e)}>
                 <Icon>mood_icon</Icon>
               </IconButton>
               <Popper
-                sx={{width: '400px', zIndex: 2}}
+                sx={{
+                  width: {xs: '100%', md: '400px', lg: '400px'},
+                  zIndex: 9999,
+                  p: 2,
+                }}
                 id={id}
                 open={emojiPopoverOpen}
                 anchorEl={anchorEl}
               >
                 <EmojiSelect onChange={emoji => handleEmojiSelect(emoji)} />
               </Popper>
-            </div>
+            </Box>
           ),
         }}
       />
