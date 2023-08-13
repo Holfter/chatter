@@ -1,10 +1,22 @@
-import {Box, Icon, IconButton, Popper, TextField, Tooltip} from '@mui/material'
+import {
+  Box,
+  Icon,
+  IconButton,
+  Popper,
+  TextField,
+  Theme,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material'
 import {EmojiClickData} from 'emoji-picker-react'
-import {useRef, useState} from 'react'
+import {useCallback, useRef, useState} from 'react'
 import EmojiSelect from '../../../components/EmojiPicker'
 import {useAuth} from '../../../contexts/AuthContext'
 import {useChat} from '../../../contexts/ChatContext'
-import {RowFlexBox} from '../../../styled_components/FlexBoxComponents'
+import {
+  ColumnFlexBox,
+  RowFlexBox,
+} from '../../../styled_components/FlexBoxComponents'
 import {sendMessage} from '../helpers/handlers'
 
 const SendMessageInput = () => {
@@ -18,9 +30,16 @@ const SendMessageInput = () => {
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
+  // Returns true if the screen size is down 900px
+  const isDownMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+
   async function handleSendMessage() {
     setText('')
-    await sendMessage({currentUser, currentFriend: currentChatUser, text})
+    await sendMessage({
+      currentUser,
+      currentFriend: currentChatUser,
+      text: inputRef?.current?.value || text,
+    })
   }
 
   const handleEmojiButtonClick = (
@@ -30,11 +49,14 @@ const SendMessageInput = () => {
     setEmojiPopoverOpen(prevOpen => !prevOpen)
   }
 
-  const handleEmojiSelect = (emoji: EmojiClickData['emoji']) => {
+  const handleEmojiSelect = useCallback((emoji: EmojiClickData['emoji']) => {
     if (inputRef.current) {
+      const prevInputValue = inputRef.current.value
       const currentCursorPos = inputRef.current.selectionStart || 0
       const newText =
-        text.slice(0, currentCursorPos) + emoji + text.slice(currentCursorPos)
+        prevInputValue.slice(0, currentCursorPos) +
+        emoji +
+        prevInputValue.slice(currentCursorPos)
       setText(newText)
 
       // Calculate new cursor position after inserting emoji
@@ -48,61 +70,67 @@ const SendMessageInput = () => {
 
       setEmojiPopoverOpen(false)
     }
-  }
+  }, [])
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (emojiPopoverOpen) setEmojiPopoverOpen(false)
+    //if (emojiPopoverOpen) setEmojiPopoverOpen(false)
     setText(event.target.value)
   }
 
   return (
-    <RowFlexBox p={2}>
-      <TextField
-        onKeyDown={ev => {
-          if (ev.key === 'Enter') {
-            ev.preventDefault()
-            handleSendMessage()
-          }
-        }}
-        type="text"
-        fullWidth
-        rows={3}
-        inputRef={inputRef}
-        value={text}
-        onChange={handleTextChange}
-        placeholder="Type a message"
-        InputProps={{
-          endAdornment: (
-            <RowFlexBox>
-              <Tooltip title="Send">
-                <IconButton onClick={() => handleSendMessage()}>
-                  <Icon>send_icon</Icon>
+    <ColumnFlexBox>
+      <RowFlexBox p={2}>
+        <TextField
+          onKeyDown={ev => {
+            if (ev.key === 'Enter') {
+              ev.preventDefault()
+              handleSendMessage()
+            }
+          }}
+          type="text"
+          fullWidth
+          rows={3}
+          inputRef={inputRef}
+          value={text}
+          onChange={handleTextChange}
+          placeholder="Type a message"
+          InputProps={{
+            endAdornment: (
+              <RowFlexBox>
+                <Tooltip title="Send">
+                  <IconButton onClick={() => handleSendMessage()}>
+                    <Icon>send_icon</Icon>
+                  </IconButton>
+                </Tooltip>
+              </RowFlexBox>
+            ),
+            startAdornment: (
+              <Box>
+                <IconButton onClick={e => handleEmojiButtonClick(e)}>
+                  <Icon>mood_icon</Icon>
                 </IconButton>
-              </Tooltip>
-            </RowFlexBox>
-          ),
-          startAdornment: (
-            <Box>
-              <IconButton onClick={e => handleEmojiButtonClick(e)}>
-                <Icon>mood_icon</Icon>
-              </IconButton>
-              <Popper
-                sx={{
-                  width: {xs: '100%', md: '400px', lg: '400px'},
-                  zIndex: 9999,
-                  p: 2,
-                }}
-                id={id}
-                open={emojiPopoverOpen}
-                anchorEl={anchorEl}
-              >
-                <EmojiSelect onChange={emoji => handleEmojiSelect(emoji)} />
-              </Popper>
-            </Box>
-          ),
-        }}
-      />
-    </RowFlexBox>
+                <Popper
+                  sx={{
+                    width: {xs: '100%', md: '400px', lg: '400px'},
+                    zIndex: 9999,
+                    p: 2,
+                  }}
+                  id={id}
+                  open={emojiPopoverOpen && !isDownMd}
+                  anchorEl={anchorEl}
+                  placement="top-start"
+                >
+                  <EmojiSelect onChange={handleEmojiSelect} />
+                </Popper>
+              </Box>
+            ),
+          }}
+        />
+      </RowFlexBox>
+      {emojiPopoverOpen && isDownMd && (
+        <EmojiSelect onChange={handleEmojiSelect} />
+      )}
+    </ColumnFlexBox>
   )
 }
 
