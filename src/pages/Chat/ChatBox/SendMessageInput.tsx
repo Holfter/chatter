@@ -1,18 +1,11 @@
-import {
-  Box,
-  Icon,
-  IconButton,
-  Popper,
-  TextField,
-  Theme,
-  Tooltip,
-  useMediaQuery,
-} from '@mui/material'
+import {Box, Icon, IconButton, Popper, Tooltip} from '@mui/material'
 import {EmojiClickData} from 'emoji-picker-react'
 import {useCallback, useRef, useState} from 'react'
 import EmojiSelect from '../../../components/EmojiPicker'
+import TextInput from '../../../components/Inputs/TextInput'
 import {useAuth} from '../../../contexts/AuthContext'
 import {useChat} from '../../../contexts/ChatContext'
+import isDownScreenSize from '../../../hooks/isDownScreenSize'
 import {
   ColumnFlexBox,
   RowFlexBox,
@@ -31,7 +24,7 @@ const SendMessageInput = () => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   // Returns true if the screen size is down 900px
-  const isDownMd = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+  const isDownMd = isDownScreenSize('md')
 
   async function handleSendMessage() {
     setText('')
@@ -80,7 +73,7 @@ const SendMessageInput = () => {
   return (
     <ColumnFlexBox>
       <RowFlexBox p={2}>
-        <TextField
+        <TextInput
           onKeyDown={ev => {
             if (ev.key === 'Enter') {
               ev.preventDefault()

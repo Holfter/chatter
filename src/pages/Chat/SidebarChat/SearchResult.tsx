@@ -1,5 +1,5 @@
-import {TextField} from '@mui/material'
 import {useState} from 'react'
+import TextInput from '../../../components/Inputs/TextInput'
 import {useChat} from '../../../contexts/ChatContext'
 import useQueryUsers from '../../../hooks/useQueryUsers'
 import {ChatRow} from '../styles'
@@ -16,7 +16,7 @@ const SearchUserInput = () => {
 
   return (
     <>
-      <TextField
+      <TextInput
         sx={{m: 0, mb: 2}}
         onChange={handleSearchUser}
         value={searchInput}
