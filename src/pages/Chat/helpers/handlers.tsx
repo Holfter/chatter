@@ -7,9 +7,10 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore'
-import {IUser, UserType} from '../../../types/IUser'
-import {db} from '../../../../firebase-config'
+import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage'
 import {v4 as uuid} from 'uuid'
+import {db, storage} from '../../../../firebase-config'
+import {IUser, UserType} from '../../../types/IUser'
 
 // This is use to select a friend to start a conversation
 export async function createUserChat(
@@ -60,6 +61,7 @@ interface IHandleSendParams {
   currentUser: UserType
   currentFriend: IUser | null
   text: string
+  file?: File | null
 }
 
 // Send message to the user
@@ -67,6 +69,7 @@ export async function sendMessage({
   currentUser,
   currentFriend,
   text,
+  file,
 }: IHandleSendParams) {
   await createUserChat(currentUser, currentFriend)
   if (currentUser && currentFriend) {
@@ -74,14 +77,35 @@ export async function sendMessage({
       currentUser.uid > currentFriend.uid
         ? currentUser.uid + currentFriend.uid
         : currentFriend.uid + currentUser.uid
-    await updateDoc(doc(db, 'chats', combinedId), {
-      messages: arrayUnion({
-        id: uuid(),
-        text,
-        senderId: currentUser?.uid,
-        date: Timestamp.now(),
-      }),
-    })
+
+    if (file) {
+      const storageRef = ref(storage, `files/${file.name + uuid()}`)
+
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      uploadTask.on('state_changed', () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async downloadURL => {
+          await updateDoc(doc(db, 'chats', combinedId), {
+            messages: arrayUnion({
+              id: uuid(),
+              text,
+              senderId: currentUser?.uid,
+              date: Timestamp.now(),
+              file: downloadURL,
+            }),
+          })
+        })
+      })
+    } else {
+      await updateDoc(doc(db, 'chats', combinedId), {
+        messages: arrayUnion({
+          id: uuid(),
+          text,
+          senderId: currentUser?.uid,
+          date: Timestamp.now(),
+        }),
+      })
+    }
 
     await updateDoc(doc(db, 'userChats', currentUser?.uid), {
       [combinedId + '.lastMessage']: {

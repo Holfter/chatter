@@ -23,6 +23,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-router-dom": "^6.11.0",
+    "react-svg": "^16.1.22",
     "save": "^2.9.0",
     "universal-cookie": "^4.0.4",
     "uuid": "^9.0.0",

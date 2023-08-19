@@ -1,6 +1,7 @@
 import {Box, Icon, IconButton, Popper, Tooltip} from '@mui/material'
 import {EmojiClickData} from 'emoji-picker-react'
 import {useCallback, useRef, useState} from 'react'
+import FileImportButton from '../../../components/Buttons/FileImportButton'
 import EmojiSelect from '../../../components/EmojiPicker'
 import TextInput from '../../../components/Inputs/TextInput'
 import {useAuth} from '../../../contexts/AuthContext'
@@ -17,6 +18,7 @@ const SendMessageInput = () => {
   const {currentChatUser} = useChat()
   const {currentUser} = useAuth()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [file, setFile] = useState<File | null>(null)
 
   const [emojiPopoverOpen, setEmojiPopoverOpen] = useState(false)
   const id = emojiPopoverOpen ? 'emoji-popper' : undefined
@@ -32,7 +34,9 @@ const SendMessageInput = () => {
       currentUser,
       currentFriend: currentChatUser,
       text: inputRef?.current?.value || text,
+      file,
     })
+    setFile(null)
   }
 
   const handleEmojiButtonClick = (
@@ -66,7 +70,6 @@ const SendMessageInput = () => {
   }, [])
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //if (emojiPopoverOpen) setEmojiPopoverOpen(false)
     setText(event.target.value)
   }
 
@@ -88,6 +91,29 @@ const SendMessageInput = () => {
           onChange={handleTextChange}
           placeholder="Type a message"
           InputProps={{
+            startAdornment: (
+              <RowFlexBox>
+                <Box>
+                  <IconButton onClick={e => handleEmojiButtonClick(e)}>
+                    <Icon>mood_icon</Icon>
+                  </IconButton>
+                  <Popper
+                    sx={{
+                      width: {xs: '100%', md: '400px', lg: '400px'},
+                      zIndex: 9999,
+                      p: 2,
+                    }}
+                    id={id}
+                    open={emojiPopoverOpen && !isDownMd}
+                    anchorEl={anchorEl}
+                    placement="top-start"
+                  >
+                    <EmojiSelect onChange={handleEmojiSelect} />
+                  </Popper>
+                </Box>
+                <FileImportButton onChange={file => setFile(file)} />
+              </RowFlexBox>
+            ),
             endAdornment: (
               <RowFlexBox>
                 <Tooltip title="Send">
@@ -97,29 +123,10 @@ const SendMessageInput = () => {
                 </Tooltip>
               </RowFlexBox>
             ),
-            startAdornment: (
-              <Box>
-                <IconButton onClick={e => handleEmojiButtonClick(e)}>
-                  <Icon>mood_icon</Icon>
-                </IconButton>
-                <Popper
-                  sx={{
-                    width: {xs: '100%', md: '400px', lg: '400px'},
-                    zIndex: 9999,
-                    p: 2,
-                  }}
-                  id={id}
-                  open={emojiPopoverOpen && !isDownMd}
-                  anchorEl={anchorEl}
-                  placement="top-start"
-                >
-                  <EmojiSelect onChange={handleEmojiSelect} />
-                </Popper>
-              </Box>
-            ),
           }}
         />
       </RowFlexBox>
+
       {emojiPopoverOpen && isDownMd && (
         <EmojiSelect onChange={handleEmojiSelect} />
       )}
