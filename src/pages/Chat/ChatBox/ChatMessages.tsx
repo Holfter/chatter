@@ -1,6 +1,7 @@
 import {Avatar, Box, Paper, Typography} from '@mui/material'
 import {styled} from '@mui/material/styles'
 import {useEffect, useRef} from 'react'
+import Image from '../../../components/ImagesDisplay/Image'
 import {useAuth} from '../../../contexts/AuthContext'
 import {useChat} from '../../../contexts/ChatContext'
 import useChatMessages from '../../../hooks/useChatMessages'
@@ -88,6 +89,15 @@ const ChatMessages = () => {
                     borderRadius: borderRadius,
                   }}
                 >
+                  {message?.file && (
+                    <Image
+                      width="300px"
+                      src={message?.file}
+                      alt="image"
+                      mt={1}
+                      rounded
+                    />
+                  )}
                   <Typography>{message?.text}</Typography>
                 </Box>
               </Box>
