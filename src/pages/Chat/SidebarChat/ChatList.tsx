@@ -1,4 +1,5 @@
-import {Avatar, Box, Typography} from '@mui/material'
+import {Box, Typography} from '@mui/material'
+import Avatar from '../../../components/ImagesDisplay/Avatar'
 import ChatRowSkeleton from '../../../components/Skeletons/Chat/ChatRowSkeleton'
 import {useChat} from '../../../contexts/ChatContext'
 import useUserChats from '../../../hooks/useUserChats'
@@ -26,7 +27,6 @@ const ChatList = () => {
               <Avatar
                 alt={chat[1].userInfo?.displayName}
                 src={chat[1].userInfo?.photoURL}
-                sx={{width: 50, height: 50, mr: 2}}
               />
               <ColumnFlexBox
                 width="100%"

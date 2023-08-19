@@ -8,6 +8,7 @@ interface ChatSidebarProps {
 export const ChatRow = styled(Box)(({theme}) => ({
   width: '100%',
   display: 'flex',
+  alignItems: 'center',
   padding: '8px',
   cursor: 'pointer',
   borderRadius: '15px',

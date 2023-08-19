@@ -4,6 +4,7 @@ import EmojiPicker, {
   Theme,
 } from 'emoji-picker-react'
 import {memo} from 'react'
+import isDownScreenSize from '../../hooks/isDownScreenSize'
 
 interface EmojiSelectProps {
   onChange?: (emoji: EmojiClickData['emoji']) => void
@@ -17,12 +18,15 @@ const EmojiSelect = memo(function ({onChange}: EmojiSelectProps) {
     onChange && onChange(emojiData.emoji)
   }
 
+  const inDownMd = isDownScreenSize('md')
+
   return (
     <EmojiPicker
       onEmojiClick={onEmojiClick}
       autoFocusSearch={false}
       theme={theme}
       width="100%"
+      height={inDownMd ? '350px' : '450px'}
       lazyLoadEmojis={true}
       emojiStyle={EmojiStyle.NATIVE}
     />

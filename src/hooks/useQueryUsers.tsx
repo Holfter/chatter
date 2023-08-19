@@ -1,10 +1,12 @@
 import {collection, getDocs, query, where} from 'firebase/firestore'
-import React, {useState, useEffect} from 'react'
-import {IUser} from '../types/IUser'
+import {useEffect, useState} from 'react'
 import {db} from '../../firebase-config'
+import {IRequestStatus} from '../types/IRequestStatus'
+import {IUser} from '../types/IUser'
 
 const useQueryUsers = (searchInput: string) => {
   const [users, setUsers] = useState<IUser[]>([])
+  const [status, setStatus] = useState<IRequestStatus>('idle')
 
   const usersRef = collection(db, 'users')
 
@@ -12,6 +14,7 @@ const useQueryUsers = (searchInput: string) => {
     const queryUser = async () => {
       setUsers([])
       if (!!searchInput.length) {
+        setStatus('pending')
         try {
           const q = query(
             usersRef,
@@ -26,8 +29,10 @@ const useQueryUsers = (searchInput: string) => {
               setUsers(prev => [...prev, userDoc])
             }
           })
+          setStatus('resolved')
         } catch (error) {
           console.log(error)
+          setStatus('rejected')
         }
       }
     }
@@ -37,7 +42,7 @@ const useQueryUsers = (searchInput: string) => {
     return () => clearTimeout(timer)
   }, [searchInput])
 
-  return {users}
+  return {users, status}
 }
 
 export default useQueryUsers
