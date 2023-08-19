@@ -35,12 +35,8 @@ const SearchUserInput = () => {
       {users && (
         <Box>
           {users.map(user => (
-            <ChatRow>
-              <Avatar
-                onClick={() => setCurrentChatUser(user)}
-                src={user.photoURL}
-                alt={user.displayName}
-              />
+            <ChatRow onClick={() => setCurrentChatUser(user)}>
+              <Avatar src={user.photoURL} alt={user.displayName} />
               <div>{user.displayName}</div>
             </ChatRow>
           ))}
