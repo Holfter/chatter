@@ -71,54 +71,62 @@ export async function sendMessage({
   text,
   file,
 }: IHandleSendParams) {
-  await createUserChat(currentUser, currentFriend)
-  if (currentUser && currentFriend) {
-    const combinedId =
-      currentUser.uid > currentFriend.uid
-        ? currentUser.uid + currentFriend.uid
-        : currentFriend.uid + currentUser.uid
+  try {
+    await createUserChat(currentUser, currentFriend)
+    if (currentUser && currentFriend) {
+      const combinedId =
+        currentUser.uid > currentFriend.uid
+          ? currentUser.uid + currentFriend.uid
+          : currentFriend.uid + currentUser.uid
 
-    if (file) {
-      const storageRef = ref(storage, `files/${file.name + uuid()}`)
+      if (file) {
+        const storageRef = ref(storage, `files/${file.name + uuid()}`)
 
-      const uploadTask = uploadBytesResumable(storageRef, file)
+        const uploadTask = uploadBytesResumable(storageRef, file)
 
-      uploadTask.on('state_changed', () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async downloadURL => {
-          await updateDoc(doc(db, 'chats', combinedId), {
-            messages: arrayUnion({
-              id: uuid(),
-              text,
-              senderId: currentUser?.uid,
-              date: Timestamp.now(),
-              file: downloadURL,
-            }),
-          })
+        uploadTask.on('state_changed', () => {
+          if (uploadTask.snapshot.ref) {
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then(async downloadURL => {
+                await updateDoc(doc(db, 'chats', combinedId), {
+                  messages: arrayUnion({
+                    id: uuid(),
+                    text,
+                    senderId: currentUser?.uid,
+                    date: Timestamp.now(),
+                    file: downloadURL,
+                  }),
+                })
+              })
+              .catch(error => console.log('error', error))
+          }
         })
-      })
-    } else {
-      await updateDoc(doc(db, 'chats', combinedId), {
-        messages: arrayUnion({
-          id: uuid(),
+      } else {
+        await updateDoc(doc(db, 'chats', combinedId), {
+          messages: arrayUnion({
+            id: uuid(),
+            text,
+            senderId: currentUser?.uid,
+            date: Timestamp.now(),
+          }),
+        })
+      }
+
+      await updateDoc(doc(db, 'userChats', currentUser?.uid), {
+        [combinedId + '.lastMessage']: {
           text,
-          senderId: currentUser?.uid,
-          date: Timestamp.now(),
-        }),
+        },
+        [combinedId + '.date']: serverTimestamp(),
+      })
+
+      await updateDoc(doc(db, 'userChats', currentFriend.uid), {
+        [combinedId + '.lastMessage']: {
+          text,
+        },
+        [combinedId + '.date']: serverTimestamp(),
       })
     }
-
-    await updateDoc(doc(db, 'userChats', currentUser?.uid), {
-      [combinedId + '.lastMessage']: {
-        text,
-      },
-      [combinedId + '.date']: serverTimestamp(),
-    })
-
-    await updateDoc(doc(db, 'userChats', currentFriend.uid), {
-      [combinedId + '.lastMessage']: {
-        text,
-      },
-      [combinedId + '.date']: serverTimestamp(),
-    })
+  } catch (error) {
+    throw error
   }
 }

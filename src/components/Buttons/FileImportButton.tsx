@@ -6,7 +6,7 @@ const FileInput = styled('input')(() => ({
 }))
 
 interface FileImportButtonProps {
-  onChange?: (file: File) => void
+  onChange?: (file: File, preview?: string | null) => void
 }
 
 const FileImportButton = ({onChange}: FileImportButtonProps) => {
@@ -19,7 +19,11 @@ const FileImportButton = ({onChange}: FileImportButtonProps) => {
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event?.target?.files?.[0]
     if (selectedFile) {
-      onChange && onChange(selectedFile)
+      let preview = null
+      if (selectedFile.type.startsWith('image/')) {
+        preview = URL.createObjectURL(selectedFile)
+      }
+      onChange && onChange(selectedFile, preview)
     }
   }
 

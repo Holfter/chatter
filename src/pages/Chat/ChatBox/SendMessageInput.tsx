@@ -1,8 +1,17 @@
-import {Box, Icon, IconButton, Popper, Tooltip} from '@mui/material'
+import {
+  Box,
+  Icon,
+  IconButton,
+  Paper,
+  Popper,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import {EmojiClickData} from 'emoji-picker-react'
 import {useCallback, useRef, useState} from 'react'
 import FileImportButton from '../../../components/Buttons/FileImportButton'
 import EmojiSelect from '../../../components/EmojiPicker'
+import Image from '../../../components/ImagesDisplay/Image'
 import TextInput from '../../../components/Inputs/TextInput'
 import {useAuth} from '../../../contexts/AuthContext'
 import {useChat} from '../../../contexts/ChatContext'
@@ -19,6 +28,7 @@ const SendMessageInput = () => {
   const {currentUser} = useAuth()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [file, setFile] = useState<File | null>(null)
+  const [filePreview, setFilePreview] = useState<string | null>()
 
   const [emojiPopoverOpen, setEmojiPopoverOpen] = useState(false)
   const id = emojiPopoverOpen ? 'emoji-popper' : undefined
@@ -29,14 +39,16 @@ const SendMessageInput = () => {
   const isDownMd = isDownScreenSize('md')
 
   async function handleSendMessage() {
-    setText('')
-    await sendMessage({
-      currentUser,
-      currentFriend: currentChatUser,
-      text: inputRef?.current?.value || text,
-      file,
-    })
-    setFile(null)
+    if (!!text.length || file) {
+      await sendMessage({
+        currentUser,
+        currentFriend: currentChatUser,
+        text: inputRef?.current?.value || text,
+        file,
+      })
+      setText('')
+      setFile(null)
+    }
   }
 
   const handleEmojiButtonClick = (
@@ -45,6 +57,8 @@ const SendMessageInput = () => {
     setAnchorEl(event.currentTarget)
     setEmojiPopoverOpen(prevOpen => !prevOpen)
   }
+
+  const closeEmojiPicker = () => setEmojiPopoverOpen(false)
 
   const handleEmojiSelect = useCallback((emoji: EmojiClickData['emoji']) => {
     if (inputRef.current) {
@@ -73,10 +87,53 @@ const SendMessageInput = () => {
     setText(event.target.value)
   }
 
+  const handleFileImportChange = (file: File, preview?: string | null) => {
+    closeEmojiPicker()
+    setFilePreview(preview)
+    setFile(file)
+  }
+
   return (
     <ColumnFlexBox>
+      {file && (
+        <>
+          <Box p={2}>
+            <RowFlexBox
+              p={2}
+              alignItems="center"
+              justifyContent="space-between"
+              gap={1}
+              component={Paper}
+            >
+              <RowFlexBox alignItems="center" gap={2}>
+                {filePreview ? (
+                  <Image
+                    src={filePreview || ''}
+                    alt="File preview"
+                    width={80}
+                  />
+                ) : (
+                  <Icon>insert_drive_file_icon</Icon>
+                )}
+                <Typography variant="body1">{file.name}</Typography>
+              </RowFlexBox>
+              <IconButton
+                onClick={() => {
+                  setFile(null)
+                  setFilePreview(null)
+                }}
+                aria-label="remove-file"
+                size="small"
+              >
+                <Icon>close_icon</Icon>
+              </IconButton>
+            </RowFlexBox>
+          </Box>
+        </>
+      )}
       <RowFlexBox p={2}>
         <TextInput
+          key={JSON.stringify(file)}
           onKeyDown={ev => {
             if (ev.key === 'Enter') {
               ev.preventDefault()
@@ -111,7 +168,11 @@ const SendMessageInput = () => {
                     <EmojiSelect onChange={handleEmojiSelect} />
                   </Popper>
                 </Box>
-                <FileImportButton onChange={file => setFile(file)} />
+                <FileImportButton
+                  onChange={(file, preview) =>
+                    handleFileImportChange(file, preview)
+                  }
+                />
               </RowFlexBox>
             ),
             endAdornment: (

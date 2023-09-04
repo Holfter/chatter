@@ -9,8 +9,11 @@ const ChatRowSkeleton = ({size = 5}: ChatRowSkeletonProps) => {
     <>
       {Array(size)
         .fill(null)
-        .map(() => (
-          <Box sx={{display: 'flex', alignItems: 'center'}}>
+        .map((_, index) => (
+          <Box
+            key={'chat-row-skeleton-' + index}
+            sx={{display: 'flex', alignItems: 'center'}}
+          >
             <Box sx={{margin: 1}}>
               <Skeleton variant="circular">
                 <Avatar />

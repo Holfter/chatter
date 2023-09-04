@@ -1,12 +1,12 @@
+import {Icon} from '@mui/material'
 import Box from '@mui/material/Box'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import {Icon} from '@mui/material'
-import {topSidebarList, bottomSidebarList} from '../Sidebarlist'
 import ListItemLinkWrapper from '../../Wrappers/ListItemLinkWrapper'
+import {bottomSidebarList, topSidebarList} from '../Sidebarlist'
 
 interface DesktopListProps {
   open: boolean
@@ -24,8 +24,8 @@ const DesktopList = ({open}: DesktopListProps) => {
     >
       <Box>
         {topSidebarList.map(item => (
-          <ListItemLinkWrapper path={item?.path}>
-            <ListItem key={item.name} disablePadding sx={{display: 'block'}}>
+          <ListItemLinkWrapper path={item?.path} key={item.name}>
+            <ListItem disablePadding sx={{display: 'block'}}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
