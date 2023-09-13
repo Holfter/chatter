@@ -1,7 +1,7 @@
 import {Avatar, Box, Paper, Typography} from '@mui/material'
 import {styled} from '@mui/material/styles'
 import {useEffect, useRef} from 'react'
-import Image from '../../../components/ImagesDisplay/Image'
+import LazyImage from '../../../components/ImagesDisplay/LazyImage'
 import {useAuth} from '../../../contexts/AuthContext'
 import {useChat} from '../../../contexts/ChatContext'
 import useChatMessages from '../../../hooks/useChatMessages'
@@ -83,20 +83,15 @@ const ChatMessages = () => {
             >
               <Box maxWidth={{xs: '90%', md: '65%', lg: '55%'}}>
                 <Box
+                  width="100%"
                   component={Paper}
                   sx={{
-                    padding: '8px 16px',
+                    padding: '16px',
                     borderRadius: borderRadius,
                   }}
                 >
                   {message?.file && (
-                    <Image
-                      width="300px"
-                      src={message?.file}
-                      alt="image"
-                      mt={1}
-                      rounded
-                    />
+                    <LazyImage src={message?.file} alt="image" />
                   )}
                   <Typography>{message?.text}</Typography>
                 </Box>

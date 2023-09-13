@@ -80,7 +80,7 @@ export async function sendMessage({
           : currentFriend.uid + currentUser.uid
 
       if (file) {
-        const storageRef = ref(storage, `files/${file.name + uuid()}`)
+        const storageRef = ref(storage, `files/${uuid() + file.name}`)
 
         const uploadTask = uploadBytesResumable(storageRef, file)
 
@@ -127,6 +127,7 @@ export async function sendMessage({
       })
     }
   } catch (error) {
+    console.log(error)
     throw error
   }
 }
