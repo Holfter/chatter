@@ -1,5 +1,6 @@
-import {ThemeProvider} from '@mui/material/styles'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {CssBaseline} from '@mui/material'
+import {StyledEngineProvider, ThemeProvider} from '@mui/material/styles'
+import {RouterProvider, createBrowserRouter} from 'react-router-dom'
 import App from './App.tsx'
 import PrivateRoute from './components/PrivateRoute/index.tsx'
 import {ChatProvider} from './contexts/ChatContext.tsx'
@@ -47,9 +48,12 @@ const router = createBrowserRouter([
 const Routes = () => {
   const {theme} = useColorMode()
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }
 

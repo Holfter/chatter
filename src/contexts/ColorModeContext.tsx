@@ -1,6 +1,7 @@
 import {createTheme, Theme} from '@mui/material/styles'
 import React from 'react'
 import muiTheme from '../theme/muiTheme'
+import ComponentsOverrides from '../theme/overrides'
 
 interface ColorModeType {
   colorMode: {
@@ -37,7 +38,11 @@ export const ColorModeProvider = (props: ColorModeProviderProps) => {
     }),
     [],
   )
+
   const theme = React.useMemo(() => muiTheme(mode), [mode])
+
+  console.log('ComponentsOverrides', ComponentsOverrides(theme))
+  theme.components = ComponentsOverrides(theme)
 
   return <ColorModeContext.Provider value={{colorMode, theme}} {...props} />
 }
